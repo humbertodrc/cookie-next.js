@@ -9,11 +9,11 @@ import RadioGroup from '@mui/material/RadioGroup';
 import React, { FC, useEffect } from "react";
 import { GetServerSideProps } from 'next';
 import Cookies from 'js-cookie';
+import Button from '@mui/material/Button';
+import axios from 'axios';
 
 const ThemeChangePage: FC = (props) => {
   
-  console.log(props);
-
   const [currentTheme, setCurrentTheme] = React.useState('dark')
 
   /**
@@ -27,8 +27,15 @@ const ThemeChangePage: FC = (props) => {
     Cookies.set('theme', event.target.value)
   }
 
+  const handleClick = async() => {
+    const { data } = await axios.get('/api/hello')
+    
+    console.log({data});
+  }
+
   useEffect(() => {
     console.log(localStorage.getItem('theme'))
+    console.log(Cookies.get('theme'))
   }, [])
 
 	return (
@@ -48,6 +55,11 @@ const ThemeChangePage: FC = (props) => {
               <FormControlLabel value='custom' control={<Radio />} label='custom' />
             </RadioGroup>
           </FormControl>
+          <Button
+            onClick={handleClick}
+          >
+            Solicitud
+          </Button>
         </CardContent>
       </Card>
 		</Layout>
