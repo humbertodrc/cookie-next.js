@@ -12,9 +12,13 @@ import Cookies from 'js-cookie';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 
-const ThemeChangePage: FC = (props) => {
+interface Props{
+  theme: string
+}
+
+const ThemeChangePage: FC<Props> = ({theme}) => {
   
-  const [currentTheme, setCurrentTheme] = React.useState('dark')
+  const [currentTheme, setCurrentTheme] = React.useState(theme)
 
   /**
    * Funcion que se ejecuta cuando se cambia el tema
@@ -30,12 +34,12 @@ const ThemeChangePage: FC = (props) => {
   const handleClick = async() => {
     const { data } = await axios.get('/api/hello')
     
-    console.log({data});
+    // console.log({data});
   }
 
   useEffect(() => {
-    console.log(localStorage.getItem('theme'))
-    console.log(Cookies.get('theme'))
+    // console.log(localStorage.getItem('theme'))
+    // console.log(Cookies.get('theme'))
   }, [])
 
 	return (
@@ -72,11 +76,14 @@ const ThemeChangePage: FC = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   
-  const {theme = 'dark'} = req.cookies;
+  const { theme = 'dark' } = req.cookies;
+  
+  // Validar el theme
+  const validThemes = ['light', 'dark', 'custom']
 
   return {
     props: {
-      theme
+      theme : validThemes.includes(theme) ? theme : 'dark'
     }
   }
 }

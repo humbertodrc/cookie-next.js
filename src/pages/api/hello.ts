@@ -2,7 +2,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
-  name: string;
   theme: string;
 }
 
@@ -13,5 +12,5 @@ export default function handler(
 
   const theme = req.cookies.theme ? req.cookies.theme : 'light'
 
-  res.status(200).json({ name: 'John Doe', theme: theme})
+  res.status(200).json({ theme: theme})
 }
